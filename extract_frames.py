@@ -24,7 +24,7 @@ def format_timedelta(td):
 
 def main_logic(video_file, fps, output_path):
     # load the video clip
-    video_clip = VideoFileClip(video_file)
+    video_clip = VideoFileClip(video_file, target_resolution=(256, None))
     filename, _ = os.path.splitext(video_file)
     filename += "-moviepy"
     if not os.path.isdir(output_path):
@@ -81,13 +81,14 @@ def main():
         "--fps",
         action="store",
         help="number of frames to be extracted per second",
+        type=int,
         default=30,
     )
     parser.add_argument(
         "--input_path",
         help="give the path to the folder that contains the videos",
         action="store",
-        default=".",
+        type=str,
     )
     parser.add_argument("--output_path", action="store", default="Extracted_frames")
     args = parser.parse_args()
@@ -103,7 +104,9 @@ def main():
     # iterate over files in chosen directory
     logging.info("Extracting frames from videos in directory: %s", directory)
     counter = 1
-    for filename in os.listdir(directory):
+    input_files = os.listdir(directory)
+    input_files.sort()
+    for filename in input_files:
         f = os.path.join(directory, filename)
         # Check if it's a video file
         if os.path.isfile(f) and (

@@ -30,15 +30,21 @@ if __name__ == "__main__":
         "--model",
         help="path to the model file",
         action="store",
-        default="model.pt",
+        default=".model.pt",
     )
     parser.add_argument(
         "--port", action="store", help="port to bind HTTP server to", default="4000"
     )
+    parser.add_argument(
+        "--num_classes",
+        action="store",
+        help="number of classes in the data set",
+        default=9,
+    )
     args = parser.parse_args()
 
     global model
-    model = FurnitureClassifier()
+    model = FurnitureClassifier(args.num_classes)
     model.load_state_dict(torch.load(args.model, map_location=torch.device("cpu")))
 
     app.run(host="0.0.0.0", port=args.port)
