@@ -9,7 +9,7 @@ from skimage import io
 
 from model import FurnitureClassifier, furniture_transform
 
-TEST_RATIO = 0.25
+TEST_RATIO = 0.2
 
 
 class FurnitureDataset(Dataset):
@@ -152,8 +152,11 @@ def main():
                 total_pred[label.item()] += 1
 
     for classname, correct_count in correct_pred.items():
-        accuracy = 100 * float(correct_count) / total_pred[classname]
-        print("Accuracy for class {:5s} is: {:.1f} %".format(str(classname), accuracy))
+        if total_pred[classname] != 0:
+            accuracy = 100 * float(correct_count) / total_pred[classname]
+            print(
+                "Accuracy for class {:5s} is: {:.1f} %".format(str(classname), accuracy)
+            )
 
     total_predictions = sum(total_pred.values())
     total_correct_predictions = sum(correct_pred.values())

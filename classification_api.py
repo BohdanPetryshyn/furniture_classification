@@ -1,4 +1,5 @@
 from flask import Flask, request
+import math
 import torchvision
 import torch
 import argparse
@@ -19,9 +20,15 @@ def classify():
     with torch.no_grad():
         output = model(image.unsqueeze(0))
 
-    output = output.argmax().item()
+    probabilities = torch.nn.functional.softmax(output, dim=1).tolist()[0]
 
-    return str(output)
+    return {
+        "class": probabilities.index(max(probabilities)),
+        "probabilities": {
+            classname: (math.floor(probability * 1000) / 1000)
+            for classname, probability in enumerate(probabilities)
+        },
+    }
 
 
 if __name__ == "__main__":
