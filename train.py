@@ -9,7 +9,7 @@ from skimage import io
 
 from model import FurnitureClassifier, furniture_transform
 
-TEST_RATIO = 0.2
+TEST_RATIO = 0.25
 
 
 class FurnitureDataset(Dataset):
