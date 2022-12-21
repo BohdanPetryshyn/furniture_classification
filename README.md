@@ -1,5 +1,7 @@
 # Furniture Classification
 
+Furniture parts classification application covering video frames extraction, training, and real-time classification.
+
 ## How to use
 
 1. Install all the requirements from requirements.txt
