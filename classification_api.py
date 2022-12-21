@@ -25,7 +25,7 @@ def classify():
     return {
         "class": probabilities.index(max(probabilities)),
         "probabilities": {
-            classname: (math.floor(probability * 1000) / 1000)
+            classname: float("{:.3f}".format(probability))
             for classname, probability in enumerate(probabilities)
         },
     }
